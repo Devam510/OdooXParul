@@ -1,76 +1,59 @@
-import { Calendar, CheckCircle2, Map, Wallet, Users, Sparkles } from "lucide-react";
+"use client";
+import { motion } from "framer-motion";
+import { Route, Receipt, Package, Bot, Map, Users } from "lucide-react";
 
 const features = [
-  {
-    name: "Collaborative Planning",
-    description: "Invite friends to your trip. Plan together in real-time, vote on activities, and share responsibilities seamlessly.",
-    icon: Users,
-    color: "bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400",
-  },
-  {
-    name: "Smart Itineraries",
-    description: "Organize your days with drag-and-drop ease. Get AI-powered suggestions for missing spots in your schedule.",
-    icon: Calendar,
-    color: "bg-teal-500/10 text-teal-600 dark:bg-teal-500/20 dark:text-teal-400",
-  },
-  {
-    name: "Expense Splitting",
-    description: "Track every penny spent. Traveloop automatically calculates who owes what, making group travel drama-free.",
-    icon: Wallet,
-    color: "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400",
-  },
-  {
-    name: "Interactive Maps",
-    description: "Visualize your entire journey. See your saved places, hotels, and daily routes on a beautifully integrated map.",
-    icon: Map,
-    color: "bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
-  },
-  {
-    name: "Packing Lists",
-    description: "Never forget a charger again. Create shared or personal packing lists with smart weather-based suggestions.",
-    icon: CheckCircle2,
-    color: "bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400",
-  },
-  {
-    name: "AI Travel Assistant",
-    description: "Stuck on what to do? Ask the AI to generate a custom day plan based on your interests and budget.",
-    icon: Sparkles,
-    color: "bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400",
-  },
+  { icon: Route, title: "Smart Itinerary Builder", desc: "Drag-and-drop your days. AI fills the gaps with local gems, optimal routing, and time-aware suggestions.", color: "#14B8A6" },
+  { icon: Receipt, title: "Group Expense Splitting", desc: "Track every penny automatically. Traveloop calculates who owes what with multi-currency support.", color: "#6366F1" },
+  { icon: Package, title: "Shared Packing Lists", desc: "Never forget your charger again. Smart weather-based suggestions and collaborative checklists.", color: "#F59E0B" },
+  { icon: Bot, title: "AI Travel Assistant", desc: "Ask anything. Get curated day plans, local restaurant picks, and real-time travel advice.", color: "#10B981" },
+  { icon: Map, title: "Interactive Map View", desc: "Visualize your full journey. See saved places, routes, and daily itineraries on a stunning map.", color: "#3B82F6" },
+  { icon: Users, title: "Real-time Collaboration", desc: "Invite your crew. Vote on activities, split decisions, and plan together from anywhere in the world.", color: "#EC4899" },
 ];
 
 export default function FeaturesSection() {
   return (
-    <div id="features" className="py-24 sm:py-32 bg-white dark:bg-black">
+    <section style={{ padding: "7rem 0" }} className="gradient-mesh">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-base font-semibold leading-7 text-teal-600 dark:text-teal-400">Everything you need</h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-            No more scattered spreadsheets.
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
+          <span className="badge badge-teal mb-5" style={{ fontSize: "12px", padding: "6px 16px" }}>Everything you need</span>
+          <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, letterSpacing: "-0.03em", color: "var(--slate)", marginBottom: "1rem" }}>
+            Built for how you<br />actually travel
+          </h2>
+          <p style={{ fontSize: "18px", color: "var(--slate-muted)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+            Every feature is designed to remove friction so you can focus on the experience.
           </p>
-          <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Traveloop brings your group chats, messy spreadsheets, and endless browser tabs into one beautifully organized workspace.
-          </p>
-        </div>
+        </motion.div>
 
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-            {features.map((feature) => (
-              <div key={feature.name} className="flex flex-col group">
-                <dt className="flex items-center gap-x-3 text-lg font-semibold leading-7 text-zinc-900 dark:text-white">
-                  <div className={`h-12 w-12 flex items-center justify-center rounded-xl ${feature.color} transition-transform group-hover:scale-110`}>
-                    <feature.icon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-zinc-600 dark:text-zinc-400">
-                  <p className="flex-auto">{feature.description}</p>
-                </dd>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feat, i) => (
+            <motion.div
+              key={feat.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.55, ease: "easeOut" }}
+              whileHover={{ y: -4 }}
+              className="card-premium card-glow p-7 cursor-default"
+              style={{ borderRadius: "var(--radius-lg)" }}
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style={{ background: `${feat.color}18` }}>
+                <feat.icon className="w-6 h-6" style={{ color: feat.color }} />
               </div>
-            ))}
-          </dl>
+              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "18px", fontWeight: 700, color: "var(--slate)", marginBottom: "0.625rem", letterSpacing: "-0.02em" }}>
+                {feat.title}
+              </h3>
+              <p style={{ fontSize: "14px", color: "var(--slate-muted)", lineHeight: 1.7 }}>{feat.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
