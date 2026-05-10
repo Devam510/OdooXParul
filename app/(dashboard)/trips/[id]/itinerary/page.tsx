@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowLeft, Map, Calendar as CalendarIcon, List, LayoutGrid, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,13 +12,18 @@ import { TimelineView } from "@/components/itinerary/TimelineView";
 import { CalendarView } from "@/components/itinerary/CalendarView";
 import { ListView } from "@/components/itinerary/ListView";
 import { CityGroupView } from "@/components/itinerary/CityGroupView";
+import { AIItineraryGenerator } from "@/components/ai/AIItineraryGenerator";
+import { toast } from "sonner";
 
 const ItineraryBuilder = dynamic(() => import("@/components/itinerary/ItineraryBuilder").then(mod => mod.ItineraryBuilder), { 
   ssr: false,
-  loading: () => <div className="p-12 text-center text-gray-500">Loading builder...</div>
+  loading: () => (
+    <div className="flex flex-col items-center justify-center h-full gap-4 text-[var(--slate-muted)]">
+      <Loader2 className="w-8 h-8 animate-spin text-[var(--teal)]" />
+      <span className="font-medium">Loading builder...</span>
+    </div>
+  )
 });
-import { AIItineraryGenerator } from "@/components/ai/AIItineraryGenerator";
-import { toast } from "sonner";
 
 export default function ItineraryPage() {
   const params = useParams();
@@ -48,8 +54,11 @@ export default function ItineraryPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-[50vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" />
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--teal-glow)" }}>
+          <Loader2 className="h-6 w-6 animate-spin" style={{ color: "var(--teal)" }} />
+        </div>
+        <p style={{ color: "var(--slate-muted)", fontSize: "14px", fontWeight: 500 }}>Loading itinerary...</p>
       </div>
     );
   }
@@ -57,22 +66,21 @@ export default function ItineraryPage() {
   if (!trip) return null;
 
   const handleAIGenerated = async (generatedStops: any[]) => {
-    // Re-fetch to see the updated stops and activities
     fetchItinerary();
   };
 
   return (
-    <div className="space-y-6 h-[calc(100vh-8rem)] flex flex-col">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 h-[calc(100vh-8rem)] flex flex-col">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 flex-shrink-0">
         <div>
-          <Button variant="ghost" asChild className="mb-2 -ml-4 text-[var(--primary-muted)] hover:text-[var(--primary)]">
-            <Link href={`/trips/${tripId}`}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
+          <motion.div whileHover={{ x: -2 }} className="mb-2">
+            <Link href={`/trips/${tripId}`} className="inline-flex items-center text-sm font-semibold transition-colors" style={{ color: "var(--slate-muted)" }}>
+              <ArrowLeft className="mr-1.5 h-4 w-4" />
               Back to Trip Details
             </Link>
-          </Button>
-          <h1 className="text-3xl font-bold tracking-tight text-[var(--primary)]">Itinerary Builder</h1>
-          <p className="text-[var(--primary-muted)]">Plan your day-to-day activities for {trip.title}</p>
+          </motion.div>
+          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "28px", fontWeight: 800, color: "var(--slate)", letterSpacing: "-0.02em" }}>Itinerary Builder</h1>
+          <p style={{ fontSize: "14px", color: "var(--slate-muted)", marginTop: "4px" }}>Plan your day-to-day activities for <strong className="text-[var(--slate)]">{trip.title}</strong></p>
         </div>
         
         <AIItineraryGenerator 
@@ -86,32 +94,27 @@ export default function ItineraryPage() {
       </div>
 
       <Tabs defaultValue="builder" className="flex-1 flex flex-col min-h-0">
-        <div className="bg-white p-2 rounded-lg border shadow-sm inline-block w-max mb-4">
-          <TabsList className="bg-transparent">
-            <TabsTrigger value="builder" className="data-[state=active]:bg-[var(--accent)] data-[state=active]:text-white">
-              <Map className="mr-2 h-4 w-4" />
-              Builder
+        <div className="card-premium p-1.5 inline-flex w-max mb-4" style={{ background: "var(--surface)", borderRadius: "12px" }}>
+          <TabsList className="bg-transparent gap-1">
+            <TabsTrigger value="builder" className="data-[state=active]:bg-[var(--teal-light)] data-[state=active]:text-[var(--teal-dark)] rounded-md px-4 py-2 transition-all">
+              <Map className="mr-2 h-4 w-4" /> Builder
             </TabsTrigger>
-            <TabsTrigger value="timeline" className="data-[state=active]:bg-[var(--accent)] data-[state=active]:text-white">
-              <List className="mr-2 h-4 w-4" />
-              Timeline
+            <TabsTrigger value="timeline" className="data-[state=active]:bg-[var(--teal-light)] data-[state=active]:text-[var(--teal-dark)] rounded-md px-4 py-2 transition-all">
+              <List className="mr-2 h-4 w-4" /> Timeline
             </TabsTrigger>
-            <TabsTrigger value="calendar" className="data-[state=active]:bg-[var(--accent)] data-[state=active]:text-white">
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              Calendar
+            <TabsTrigger value="calendar" className="data-[state=active]:bg-[var(--teal-light)] data-[state=active]:text-[var(--teal-dark)] rounded-md px-4 py-2 transition-all">
+              <CalendarIcon className="mr-2 h-4 w-4" /> Calendar
             </TabsTrigger>
-            <TabsTrigger value="list" className="data-[state=active]:bg-[var(--accent)] data-[state=active]:text-white">
-              <LayoutGrid className="mr-2 h-4 w-4" />
-              List
+            <TabsTrigger value="list" className="data-[state=active]:bg-[var(--teal-light)] data-[state=active]:text-[var(--teal-dark)] rounded-md px-4 py-2 transition-all">
+              <LayoutGrid className="mr-2 h-4 w-4" /> List
             </TabsTrigger>
-            <TabsTrigger value="city" className="data-[state=active]:bg-[var(--accent)] data-[state=active]:text-white">
-              <Map className="mr-2 h-4 w-4" />
-              City View
+            <TabsTrigger value="city" className="data-[state=active]:bg-[var(--teal-light)] data-[state=active]:text-[var(--teal-dark)] rounded-md px-4 py-2 transition-all">
+              <Map className="mr-2 h-4 w-4" /> City View
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <div className="flex-1 min-h-0 bg-white rounded-xl border shadow-sm overflow-hidden flex flex-col">
+        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="flex-1 min-h-0 card-premium overflow-hidden flex flex-col" style={{ borderRadius: "var(--radius-lg)" }}>
           <TabsContent value="builder" className="h-full m-0 data-[state=active]:flex flex-col">
             <ItineraryBuilder trip={trip} onRefresh={fetchItinerary} />
           </TabsContent>
@@ -131,8 +134,8 @@ export default function ItineraryPage() {
           <TabsContent value="city" className="h-full m-0 p-6 overflow-y-auto">
             <CityGroupView trip={trip} />
           </TabsContent>
-        </div>
+        </motion.div>
       </Tabs>
-    </div>
+    </motion.div>
   );
 }
