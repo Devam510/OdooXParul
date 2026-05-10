@@ -51,7 +51,7 @@ export function TemplateSelector({ tripId, onSuccess }: { tripId: string, onSucc
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Choose a packing list</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {templates.map(type => (
+        {templates.map((type: any) => (
           <DropdownMenuItem key={type} onClick={() => handleApplyTemplate(type)} className="capitalize cursor-pointer">
             {type.toLowerCase()}
           </DropdownMenuItem>

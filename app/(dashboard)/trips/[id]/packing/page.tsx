@@ -65,7 +65,7 @@ export default function PackingPage() {
 
   const handleAddAIItems = async (suggestedItems: any[]) => {
     try {
-      const promises = suggestedItems.map(item => 
+      const promises = suggestedItems.map((item: any) => 
         fetch(`/api/trips/${tripId}/packing`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

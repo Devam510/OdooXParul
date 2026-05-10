@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 
 export function PackingProgress({ items }: { items: any[] }) {
   const total = items.length;
-  const packed = items.filter(i => i.isPacked).length;
+  const packed = items.filter((i: any) => i.isPacked).length;
   const percentage = total === 0 ? 0 : Math.round((packed / total) * 100);
 
   return (

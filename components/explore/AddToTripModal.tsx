@@ -110,7 +110,7 @@ export function AddToTripModal({ isOpen, onClose, activity, city }: { isOpen: bo
                 <SelectValue placeholder="Choose a trip..." />
               </SelectTrigger>
               <SelectContent>
-                {trips.map(t => (
+                {trips.map((t: any) => (
                   <SelectItem key={t.id} value={t.id}>{t.title}</SelectItem>
                 ))}
               </SelectContent>
@@ -125,7 +125,7 @@ export function AddToTripModal({ isOpen, onClose, activity, city }: { isOpen: bo
                   <SelectValue placeholder="Choose a stop..." />
                 </SelectTrigger>
                 <SelectContent>
-                  {stops.map(s => (
+                  {stops.map((s: any) => (
                     <SelectItem key={s.id} value={s.id}>{s.city?.name || 'Unknown'}</SelectItem>
                   ))}
                   {stops.length === 0 && (

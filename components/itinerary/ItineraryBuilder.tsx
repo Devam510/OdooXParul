@@ -53,7 +53,7 @@ export function ItineraryBuilder({ trip, onRefresh }: ItineraryBuilderProps) {
         const newOrder = arrayMove(items, oldIndex, newIndex);
         
         // Optimistic update
-        updateStopOrderInDB(newOrder.map(s => s.id));
+        updateStopOrderInDB(newOrder.map((s: any) => s.id));
         return newOrder;
       });
     }
@@ -65,7 +65,7 @@ export function ItineraryBuilder({ trip, onRefresh }: ItineraryBuilderProps) {
     if (over && active.id !== over.id && selectedStopId) {
       setStops((items) => {
         const newStops = [...items];
-        const stopIndex = newStops.findIndex(s => s.id === selectedStopId);
+        const stopIndex = newStops.findIndex((s: any) => s.id === selectedStopId);
         if (stopIndex > -1 && newStops[stopIndex].activities) {
           const oldIndex = newStops[stopIndex].activities.findIndex((a: any) => a.id === active.id);
           const newIndex = newStops[stopIndex].activities.findIndex((a: any) => a.id === over.id);
@@ -109,7 +109,7 @@ export function ItineraryBuilder({ trip, onRefresh }: ItineraryBuilderProps) {
     }
   };
 
-  const selectedStop = stops.find(s => s.id === selectedStopId);
+  const selectedStop = stops.find((s: any) => s.id === selectedStopId);
 
   return (
     <div className="flex h-full w-full overflow-hidden divide-x">
@@ -129,8 +129,8 @@ export function ItineraryBuilder({ trip, onRefresh }: ItineraryBuilderProps) {
             </div>
           ) : (
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={stops.map(s => s.id)} strategy={verticalListSortingStrategy}>
-                {stops.map(stop => (
+              <SortableContext items={stops.map((s: any) => s.id)} strategy={verticalListSortingStrategy}>
+                {stops.map((stop: any) => (
                   <StopCard 
                     key={stop.id} 
                     stop={stop} 

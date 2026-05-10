@@ -108,7 +108,7 @@ export function AddActivityModal({ isOpen, onClose, tripId, stopId, cityId, onSu
                   <SelectValue placeholder="Select from results" />
                 </SelectTrigger>
                 <SelectContent>
-                  {activities.map(act => (
+                  {activities.map((act: any) => (
                     <SelectItem key={act.id} value={act.id}>
                       {act.name} ({act.category})
                     </SelectItem>

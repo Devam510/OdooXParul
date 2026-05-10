@@ -58,7 +58,7 @@ export function AddItemForm({ tripId, onSuccess }: { tripId: string, onSuccess: 
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {PACKING_CATEGORIES.map(cat => (
+            {PACKING_CATEGORIES.map((cat: any) => (
               <SelectItem key={cat.value} value={cat.value}>{cat.icon} {cat.label}</SelectItem>
             ))}
           </SelectContent>

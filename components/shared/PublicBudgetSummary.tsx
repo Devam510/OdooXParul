@@ -23,7 +23,7 @@ export function PublicBudgetSummary({ summary }: { summary: any }) {
   const data = Object.entries(summary.byCategory).map(([name, value]) => ({
     name,
     value
-  })).filter(item => (item.value as number) > 0);
+  })).filter((item: any) => (item.value as number) > 0);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border overflow-hidden">

@@ -119,7 +119,7 @@ async function main() {
     });
     console.log(`Created city: ${city.name}`);
     
-    const cityActivities = activitiesData.filter(a => a.cityName === city.name);
+    const cityActivities = activitiesData.filter((a: any) => a.cityName === city.name);
     for (const act of cityActivities) {
       await prisma.activity.create({
         data: {

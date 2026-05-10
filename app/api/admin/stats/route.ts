@@ -34,7 +34,7 @@ export const GET = withAuth(async (req: NextRequest, user: JWTPayload) => {
       tripsPerDayMap[d.toISOString().split('T')[0]] = 0;
     }
 
-    recentTrips.forEach(trip => {
+    recentTrips.forEach((trip: any) => {
       const dateStr = trip.createdAt.toISOString().split('T')[0];
       if (tripsPerDayMap[dateStr] !== undefined) {
         tripsPerDayMap[dateStr]++;

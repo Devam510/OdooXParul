@@ -37,7 +37,7 @@ export function AIChatbot({ tripContext }: { tripContext?: any }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          messages: [...messages.map(m => ({ role: m.role, content: m.content })), userMessage],
+          messages: [...messages.map((m: any) => ({ role: m.role, content: m.content })), userMessage],
           tripContext 
         })
       });

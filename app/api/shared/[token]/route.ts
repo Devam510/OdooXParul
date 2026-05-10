@@ -55,13 +55,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ toke
       endDate: share.trip.endDate,
       tags: share.trip.tags,
       user: share.trip.user,
-      stops: share.trip.stops.map(s => ({
+      stops: share.trip.stops.map((s: any) => ({
         city: s.city,
         arrivalDate: s.arrivalDate,
         departureDate: s.departureDate,
         hotelName: s.hotelName,
         transportType: s.transportType,
-        activities: s.activities.map(a => a.activity)
+        activities: s.activities.map((a: any) => a.activity)
       })),
       budgetSummary: {
         totalSpent: share.trip.expenses.reduce((acc, exp) => acc + exp.amount, 0),

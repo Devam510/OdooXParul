@@ -56,12 +56,12 @@ export function BudgetDashboard({ tripId }: { tripId: string }) {
 
   // Calculate city-wise cost breakdown
   const cityCostMap: Record<string, number> = {};
-  stops.forEach(stop => {
+  stops.forEach((stop: any) => {
     if (stop.city) cityCostMap[stop.city.name] = 0;
   });
-  expenses.forEach(exp => {
+  expenses.forEach((exp: any) => {
     if (exp.tripStopId) {
-      const stop = stops.find(s => s.id === exp.tripStopId);
+      const stop = stops.find((s: any) => s.id === exp.tripStopId);
       if (stop && stop.city) {
         cityCostMap[stop.city.name] = (cityCostMap[stop.city.name] || 0) + exp.amount;
       }
@@ -77,7 +77,7 @@ export function BudgetDashboard({ tripId }: { tripId: string }) {
 
   // Calculate daily spending trend
   const dailyCostMap: Record<string, number> = {};
-  expenses.forEach(exp => {
+  expenses.forEach((exp: any) => {
     const dateStr = new Date(exp.date).toISOString().split('T')[0];
     dailyCostMap[dateStr] = (dailyCostMap[dateStr] || 0) + exp.amount;
   });

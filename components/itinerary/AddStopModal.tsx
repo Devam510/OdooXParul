@@ -102,7 +102,7 @@ export function AddStopModal({ isOpen, onClose, tripId, onSuccess }: AddStopModa
                   <SelectValue placeholder="Select from results" />
                 </SelectTrigger>
                 <SelectContent>
-                  {cities.map(city => (
+                  {cities.map((city: any) => (
                     <SelectItem key={city.id} value={city.id}>
                       {city.name}, {city.country}
                     </SelectItem>

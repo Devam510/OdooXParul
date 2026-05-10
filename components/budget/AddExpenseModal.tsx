@@ -101,7 +101,7 @@ export function AddExpenseModal({ isOpen, onClose, tripId, onSuccess }: any) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {EXPENSE_CATEGORIES.map(cat => (
+                {EXPENSE_CATEGORIES.map((cat: any) => (
                   <SelectItem key={cat.value} value={cat.value}>{cat.icon} {cat.label}</SelectItem>
                 ))}
               </SelectContent>

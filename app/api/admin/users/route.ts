@@ -39,7 +39,7 @@ export const GET = withAuth(async (req: NextRequest, user: JWTPayload) => {
     ]);
 
     return successResponse({
-      users: users.map(u => ({
+      users: users.map((u: any) => ({
         ...u,
         tripsCount: u._count.trips
       })),
