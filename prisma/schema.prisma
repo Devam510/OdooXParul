@@ -1,0 +1,306 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TripStatus {
+  PLANNING
+  ONGOING
+  COMPLETED
+  ARCHIVED
+}
+
+enum TripVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+enum ActivityCategory {
+  ADVENTURE
+  SIGHTSEEING
+  NIGHTLIFE
+  FOOD
+  CULTURE
+  SHOPPING
+}
+
+enum ExpenseCategory {
+  HOTEL
+  TRANSPORT
+  FOOD
+  ACTIVITIES
+  MISCELLANEOUS
+}
+
+enum PackingCategory {
+  CLOTHING
+  ELECTRONICS
+  ESSENTIALS
+  DOCUMENTS
+  TOILETRIES
+  MISCELLANEOUS
+}
+
+enum NoteType {
+  TRIP
+  DAILY
+  GENERAL
+}
+
+enum TransportType {
+  FLIGHT
+  TRAIN
+  BUS
+  CAR
+  SHIP
+  OTHER
+}
+
+model User {
+  id                 String          @id @default(cuid())
+  email              String          @unique
+  username           String          @unique
+  fullName           String
+  passwordHash       String
+  avatar             String?
+  bio                String?
+  role               Role            @default(USER)
+  isVerified         Boolean         @default(false)
+  travelStyle        String?
+  favoriteDestinations String[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  trips              Trip[]
+  notes              Note[]
+  sessions           Session[]
+  refreshTokens      RefreshToken[]
+  passwordResets     PasswordReset[]
+
+  @@index([email])
+  @@index([username])
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String
+  token      String   @unique
+  expiresAt  DateTime
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  userId     String
+  token      String   @unique
+  expiresAt  DateTime
+  isRevoked  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+}
+
+model City {
+  id          String   @id @default(cuid())
+  name        String
+  country     String
+  description String?
+  image       String?
+  costIndex   Int      @default(2) // 1=$, 2=$$, 3=$$$, 4=$$$$
+  latitude    Float?
+  longitude   Float?
+  popularity  Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  tripStops   TripStop[]
+  activities  Activity[]
+
+  @@index([name])
+  @@index([country])
+  @@index([popularity])
+}
+
+model Activity {
+  id             String           @id @default(cuid())
+  cityId         String
+  name           String
+  description    String?
+  image          String?
+  durationMins   Int              @default(60)
+  estimatedCost  Float            @default(0)
+  category       ActivityCategory
+  rating         Float            @default(0)
+  createdAt      DateTime         @default(now())
+
+  city           City             @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  tripActivities TripActivity[]
+
+  @@index([cityId])
+  @@index([category])
+  @@index([rating])
+}
+
+model Trip {
+  id          String         @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  coverImage  String?
+  startDate   DateTime
+  endDate     DateTime
+  visibility  TripVisibility @default(PRIVATE)
+  status      TripStatus     @default(PLANNING)
+  tags        String[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stops       TripStop[]
+  expenses    Expense[]
+  packingItems PackingItem[]
+  notes       Note[]
+  sharedTrips SharedTrip[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([startDate])
+}
+
+model TripStop {
+  id            String        @id @default(cuid())
+  tripId        String
+  cityId        String
+  order         Int
+  arrivalDate   DateTime?
+  departureDate DateTime?
+  hotelName     String?
+  hotelAddress  String?
+  hotelCostPerNight Float?
+  transportType TransportType?
+  transportNotes String?
+  notes         String?
+  budgetEstimate Float?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  trip          Trip          @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  city          City          @relation(fields: [cityId], references: [id])
+  activities    TripActivity[]
+
+  @@index([tripId])
+  @@index([tripId, order])
+}
+
+model TripActivity {
+  id             String    @id @default(cuid())
+  tripStopId     String
+  activityId     String
+  scheduledDate  DateTime?
+  scheduledTime  String?   // "HH:MM" format
+  notes          String?
+  status         String    @default("planned") // planned | done | skipped
+  order          Int       @default(0)
+  createdAt      DateTime  @default(now())
+
+  tripStop       TripStop  @relation(fields: [tripStopId], references: [id], onDelete: Cascade)
+  activity       Activity  @relation(fields: [activityId], references: [id])
+
+  @@index([tripStopId])
+  @@index([activityId])
+}
+
+model Expense {
+  id          String          @id @default(cuid())
+  tripId      String
+  tripStopId  String?
+  category    ExpenseCategory
+  description String?
+  amount      Float
+  currency    String          @default("USD")
+  date        DateTime
+  createdAt   DateTime        @default(now())
+
+  trip        Trip            @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId])
+  @@index([category])
+}
+
+model PackingItem {
+  id        String          @id @default(cuid())
+  tripId    String
+  name      String
+  category  PackingCategory
+  isPacked  Boolean         @default(false)
+  quantity  Int             @default(1)
+  createdAt DateTime        @default(now())
+
+  trip      Trip            @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId])
+}
+
+model Note {
+  id        String    @id @default(cuid())
+  userId    String
+  tripId    String?
+  title     String
+  content   String
+  type      NoteType  @default(GENERAL)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trip      Trip?     @relation(fields: [tripId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([tripId])
+}
+
+model SharedTrip {
+  id          String    @id @default(cuid())
+  tripId      String
+  shareToken  String    @unique @default(cuid())
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  trip        Trip      @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId])
+  @@index([shareToken])
+}

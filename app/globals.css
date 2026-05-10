@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap");
+@import "tailwindcss";
+
+
+/* ── 60-30-10 Color System ──────────────────────────────────────────── */
+:root {
+  /* 60% — Backgrounds & Surfaces */
+  --background: #F8FAFC;
+  --background-secondary: #F1F5F9;
+  --surface: #FFFFFF;
+
+  /* 30% — Structure, Text, Navbar, Sidebar */
+  --primary: #1E293B;
+  --primary-light: #334155;
+  --primary-muted: #64748B;
+
+  /* 10% — Accent / Buttons / Active States */
+  --accent: #14B8A6;
+  --accent-hover: #0D9488;
+  --accent-light: #CCFBF1;
+
+  /* Semantic */
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --success: #22C55E;
+  --success-light: #DCFCE7;
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+  --error: #EF4444;
+  --error-light: #FEE2E2;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --background: #0F172A;
+  --background-secondary: #1E293B;
+  --surface: #1E293B;
+  --primary: #F8FAFC;
+  --primary-light: #E2E8F0;
+  --primary-muted: #94A3B8;
+  --accent: #14B8A6;
+  --accent-hover: #0D9488;
+  --accent-light: #134E4A;
+  --border: #334155;
+  --border-strong: #475569;
+}
+
+/* ── Base Styles ─────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--primary);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--background-secondary); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-hover); }
+
+/* ── Utility Classes ─────────────────────────────────────────────────── */
+
+/* Buttons */
+.btn-accent {
+  background-color: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s, transform 0.1s;
+  border: none;
+  cursor: pointer;
+}
+.btn-accent:hover { background-color: var(--accent-hover); }
+.btn-accent:active { transform: scale(0.98); }
+
+/* Cards */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Active sidebar item */
+.sidebar-item-active {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  font-weight: 600;
+}
+
+/* Glassmorphism */
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(248, 250, 252, 0.8);
+  border: 1px solid var(--border);
+}
+[data-theme="dark"] .glass {
+  background-color: rgba(15, 23, 42, 0.8);
+}
+
+/* Gradient accent text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gradient accent background */
+.gradient-accent {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+}
+
+/* Gradient primary background (for hero sections) */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+/* Focus ring using accent */
+.focus-accent:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Badge variants */
+.badge-accent {
+  background-color: var(--accent-light);
+  color: var(--accent-hover);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-accent {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+.animate-fade-in  { animation: fadeIn 0.3s ease forwards; }
+.animate-slide-up { animation: slideUp 0.4s ease forwards; }
+.animate-pulse-accent { animation: pulse-accent 1.5s ease-in-out infinite; }
+
+/* ── ShadCN Overrides (accent color binding) ─────────────────────────── */
+:root {
+  --radius: 0.5rem;
+}
