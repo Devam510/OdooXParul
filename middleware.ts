@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAccessToken } from "@/lib/auth";
 
-const PUBLIC_PATHS = ["/login", "/signup", "/forgot-password", "/reset-password", "/shared"];
+const PUBLIC_PATHS = ["/", "/login", "/signup", "/forgot-password", "/reset-password", "/shared", "/explore"];
 const API_PUBLIC = ["/api/auth/login", "/api/auth/signup", "/api/auth/refresh", "/api/auth/forgot-password", "/api/auth/reset-password", "/api/shared"];
 
 export function middleware(req: NextRequest) {
