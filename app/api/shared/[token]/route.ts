@@ -1,6 +1,19 @@
 import { NextRequest } from "next/server";
 import { successResponse, errorResponse } from "@/lib/response";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
+
+type ShareWithTrip = Prisma.SharedTripGetPayload<{
+  include: {
+    trip: {
+      include: {
+        stops: { include: { city: true; activities: { include: { activity: true }; orderBy: { order: "asc" } } }; orderBy: { order: "asc" } };
+        expenses: true;
+        user: { select: { fullName: true; username: true; avatar: true } };
+      };
+    };
+  };
+}>;
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -36,7 +49,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ toke
           }
         }
       }
-    });
+    }) as ShareWithTrip | null;
 
     if (!share || !share.isActive) {
       return errorResponse("NOT_FOUND", "Shared trip not found or link has expired", 404);
