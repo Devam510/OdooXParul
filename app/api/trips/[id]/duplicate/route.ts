@@ -7,7 +7,7 @@ import { rateLimiters } from "@/lib/rate-limit";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
     const ip = req.headers.get("x-forwarded-for") || "unknown";
     const { allowed } = rateLimiters.write(user.userId);
@@ -16,7 +16,7 @@ export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params
       return errorResponse("RATE_LIMIT_EXCEEDED", "Too many requests. Try again later.", 429);
     }
 
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     // 1. Fetch the original trip with all nested data
     const existingTrip = await prisma.trip.findUnique({

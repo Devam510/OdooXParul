@@ -6,9 +6,9 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     const existingTrip = await prisma.trip.findUnique({ where: { id: tripId } });
 

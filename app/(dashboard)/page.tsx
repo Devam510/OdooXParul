@@ -15,7 +15,7 @@ export default function DashboardRoot() {
 
   const stats = {
     totalTrips: trips.length,
-    countriesVisited: completedTrips.reduce((acc, trip) => acc + (trip._count?.stops || 0), 0), // Rough estimate for now
+    totalStops: completedTrips.reduce((acc, trip) => acc + ((trip as any)._count?.stops || 0), 0),
     upcomingDays: upcomingTrips.reduce((acc, trip) => {
       const diffTime = Math.abs(new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;

@@ -105,7 +105,7 @@ export function AddToTripModal({ isOpen, onClose, activity, city }: { isOpen: bo
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Select Trip</label>
-            <Select value={selectedTripId} onValueChange={setSelectedTripId}>
+            <Select value={selectedTripId} onValueChange={(val: any) => setSelectedTripId(val)}>
               <SelectTrigger>
                 <SelectValue placeholder="Choose a trip..." />
               </SelectTrigger>
@@ -120,7 +120,7 @@ export function AddToTripModal({ isOpen, onClose, activity, city }: { isOpen: bo
           {activity && selectedTripId && (
             <div className="space-y-2">
               <label className="text-sm font-medium">Select Destination Stop</label>
-              <Select value={selectedStopId} onValueChange={setSelectedStopId}>
+              <Select value={selectedStopId} onValueChange={(val: any) => setSelectedStopId(val)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Choose a stop..." />
                 </SelectTrigger>

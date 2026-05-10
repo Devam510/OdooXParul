@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const result = resetPasswordSchema.safeParse(body);
 
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const { token, password } = result.data;

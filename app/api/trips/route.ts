@@ -65,7 +65,7 @@ export const POST = withAuth(async (req: NextRequest, user: JWTPayload) => {
     const result = tripSchema.safeParse(body);
 
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid trip data", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid trip data", 400, (result.error as any).errors);
     }
 
     const { title, description, startDate, endDate, visibility, tags } = result.data;

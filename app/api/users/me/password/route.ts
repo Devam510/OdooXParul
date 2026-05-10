@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { withAuth, JWTPayload } from "@/lib/auth";
 import { successResponse, errorResponse } from "@/lib/response";
 import { prisma } from "@/lib/prisma";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { changePasswordSchema } from "@/lib/validators";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +14,7 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload) => {
     const result = changePasswordSchema.safeParse(body);
     
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const { currentPassword, newPassword } = result.data;

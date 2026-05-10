@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Copy, Check, Twitter, Link2, Globe, Trash2 } from "lucide-react";
+import { Loader2, Copy, Check, Link2, Globe, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export function ShareModal({ isOpen, onClose, tripId }: { isOpen: boolean, onClose: () => void, tripId: string }) {
@@ -158,8 +158,7 @@ export function ShareModal({ isOpen, onClose, tripId }: { isOpen: boolean, onClo
 
                 <div className="pt-4 flex gap-2">
                   <Button variant="outline" className="flex-1" onClick={handleTwitterShare}>
-                    <Twitter className="mr-2 h-4 w-4 text-blue-400" />
-                    Twitter
+                    𝕏 Twitter
                   </Button>
                   <Button variant="outline" className="flex-1" onClick={handleWhatsAppShare}>
                     WhatsApp

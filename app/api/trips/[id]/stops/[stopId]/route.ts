@@ -6,9 +6,9 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; stopId: string } }) => {
+export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, stopId } = params;
+    const { id: tripId, stopId } = await params;
 
     const existingTrip = await prisma.trip.findUnique({ where: { id: tripId } });
 
@@ -38,9 +38,9 @@ export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { para
   }
 });
 
-export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; stopId: string } }) => {
+export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, stopId } = params;
+    const { id: tripId, stopId } = await params;
 
     const existingTrip = await prisma.trip.findUnique({ where: { id: tripId } });
 

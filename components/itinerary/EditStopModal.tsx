@@ -111,7 +111,7 @@ export function EditStopModal({ isOpen, onClose, tripId, stop, onSuccess }: any)
             </div>
             <div className="space-y-2">
               <Label>Transport to next stop</Label>
-              <Select value={transportType} onValueChange={setTransportType}>
+              <Select value={transportType} onValueChange={(val: any) => setTransportType(val)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

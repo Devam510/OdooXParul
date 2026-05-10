@@ -7,9 +7,9 @@ import { expenseSchema } from "@/lib/validators";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {
@@ -32,9 +32,9 @@ export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params 
   }
 });
 
-export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {
@@ -44,7 +44,7 @@ export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params
     const body = await req.json();
     const result = expenseSchema.safeParse(body);
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const { amount, currency, category, description, date, tripStopId } = result.data;

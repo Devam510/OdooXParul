@@ -9,7 +9,7 @@ export function ActivityFilters({ filters, setFilters }: { filters: any, setFilt
     <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-wrap gap-6 items-end">
       <div className="space-y-2 w-[200px]">
         <Label>Category</Label>
-        <Select value={filters.category} onValueChange={(v) => setFilters({ ...filters, category: v === 'all' ? '' : v })}>
+        <Select value={filters.category} onValueChange={(v: any) => setFilters({ ...filters, category: v === 'all' ? '' : v })}>
           <SelectTrigger>
             <SelectValue placeholder="All Categories" />
           </SelectTrigger>
@@ -29,7 +29,7 @@ export function ActivityFilters({ filters, setFilters }: { filters: any, setFilt
         <Label>Max Cost (${filters.maxCost})</Label>
         <Slider 
           value={[filters.maxCost]} 
-          onValueChange={(v) => setFilters({ ...filters, maxCost: v[0] })} 
+          onValueChange={(v: any) => setFilters({ ...filters, maxCost: v[0] })} 
           max={500} 
           min={0} 
           step={10} 
@@ -40,7 +40,7 @@ export function ActivityFilters({ filters, setFilters }: { filters: any, setFilt
         <Label>Min Rating ({filters.minRating}+ ⭐)</Label>
         <Slider 
           value={[filters.minRating]} 
-          onValueChange={(v) => setFilters({ ...filters, minRating: v[0] })} 
+          onValueChange={(v: any) => setFilters({ ...filters, minRating: v[0] })} 
           max={5} 
           min={0} 
           step={0.5} 

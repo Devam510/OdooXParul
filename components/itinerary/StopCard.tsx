@@ -91,10 +91,8 @@ export function StopCard({ stop, tripId, isSelected, onClick, onRefresh }: StopC
         </span>
         
         <DropdownMenu>
-          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-[var(--primary)]">
-              <MoreVertical className="h-4 w-4" />
-            </Button>
+          <DropdownMenuTrigger className="inline-flex items-center justify-center h-8 w-8 rounded text-gray-400 hover:text-[var(--primary)] hover:bg-accent" onClick={(e) => e.stopPropagation()}>
+            <MoreVertical className="h-4 w-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setIsEditModalOpen(true); }}>

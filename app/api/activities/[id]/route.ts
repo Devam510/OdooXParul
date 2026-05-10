@@ -6,10 +6,10 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
     const activity = await prisma.activity.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: {
         city: true
       }

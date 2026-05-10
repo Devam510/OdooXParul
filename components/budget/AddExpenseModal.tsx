@@ -14,7 +14,7 @@ export function AddExpenseModal({ isOpen, onClose, tripId, onSuccess }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("USD");
-  const [category, setCategory] = useState(EXPENSE_CATEGORIES[0]);
+  const [category, setCategory] = useState(EXPENSE_CATEGORIES[0].value);
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
 
@@ -79,7 +79,7 @@ export function AddExpenseModal({ isOpen, onClose, tripId, onSuccess }: any) {
             </div>
             <div className="space-y-2">
               <Label>Currency</Label>
-              <Select value={currency} onValueChange={setCurrency}>
+              <Select value={currency} onValueChange={(val) => setCurrency(val || "USD")}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -96,13 +96,13 @@ export function AddExpenseModal({ isOpen, onClose, tripId, onSuccess }: any) {
 
           <div className="space-y-2">
             <Label>Category</Label>
-            <Select value={category} onValueChange={setCategory}>
+            <Select value={category} onValueChange={(val: any) => setCategory(val)}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {EXPENSE_CATEGORIES.map(cat => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  <SelectItem key={cat.value} value={cat.value}>{cat.icon} {cat.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>

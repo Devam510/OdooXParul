@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema } from "@/lib/validators";
 import { AuthLayout } from "@/components/auth/AuthLayout";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import {
   Form,
@@ -75,9 +75,9 @@ export default function ResetPasswordPage() {
           <div className="rounded-md bg-[var(--error)]/10 p-4 text-[var(--error)]">
             <p className="text-sm font-medium">Missing or invalid reset token. Please request a new one.</p>
           </div>
-          <Button variant="outline" className="w-full" asChild>
-            <Link href="/forgot-password">Request Reset Link</Link>
-          </Button>
+          <Link href="/forgot-password" className={buttonVariants({ variant: "outline", className: "w-full" })}>
+            Request Reset Link
+          </Link>
         </div>
       </AuthLayout>
     );

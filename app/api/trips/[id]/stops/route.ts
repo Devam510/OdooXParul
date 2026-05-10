@@ -8,9 +8,9 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 // POST /api/trips/:id/stops — Add a stop to a trip
-export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     const existingTrip = await prisma.trip.findUnique({ where: { id: tripId } });
 
@@ -26,7 +26,7 @@ export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params
     const result = tripStopSchema.safeParse(body);
 
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const data: any = { ...result.data };

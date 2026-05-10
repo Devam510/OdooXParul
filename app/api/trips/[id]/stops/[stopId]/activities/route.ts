@@ -14,9 +14,9 @@ const addActivitySchema = z.object({
   notes: z.string().optional(),
 });
 
-export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; stopId: string } }) => {
+export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, stopId } = params;
+    const { id: tripId, stopId } = await params;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {
@@ -31,7 +31,7 @@ export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params
     const body = await req.json();
     const result = addActivitySchema.safeParse(body);
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const { activityId, scheduledDate, scheduledTime, notes } = result.data;

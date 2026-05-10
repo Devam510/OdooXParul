@@ -11,7 +11,7 @@ import { toast } from "sonner";
 export function AddItemForm({ tripId, onSuccess }: { tripId: string, onSuccess: () => void }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [category, setCategory] = useState(PACKING_CATEGORIES[0]);
+  const [category, setCategory] = useState(PACKING_CATEGORIES[0].value);
   const [quantity, setQuantity] = useState("1");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,13 +53,13 @@ export function AddItemForm({ tripId, onSuccess }: { tripId: string, onSuccess: 
         />
       </div>
       <div className="w-full sm:w-[150px]">
-        <Select value={category} onValueChange={setCategory} disabled={isLoading}>
+        <Select value={category} onValueChange={(val: any) => setCategory(val)} disabled={isLoading}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {PACKING_CATEGORIES.map(cat => (
-              <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+              <SelectItem key={cat.value} value={cat.value}>{cat.icon} {cat.label}</SelectItem>
             ))}
           </SelectContent>
         </Select>

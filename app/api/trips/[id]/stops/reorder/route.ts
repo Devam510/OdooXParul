@@ -7,9 +7,9 @@ import { reorderStopsSchema } from "@/lib/validators";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     const existingTrip = await prisma.trip.findUnique({ where: { id: tripId } });
 
@@ -25,7 +25,7 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
     const result = reorderStopsSchema.safeParse(body);
 
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const { orderedIds } = result.data;

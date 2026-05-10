@@ -57,5 +57,5 @@ export interface TripWithStops extends Trip {
 export interface TripFilters {
   search: string;
   status: TripStatus | "ALL";
-  sort: "date_asc" | "date_desc" | "title_asc" | "budget_desc";
+  sort: "recent" | "upcoming";
 }

@@ -97,7 +97,7 @@ export function AddStopModal({ isOpen, onClose, tripId, onSuccess }: AddStopModa
               onChange={(e) => setSearch(e.target.value)}
             />
             {cities.length > 0 && (
-              <Select value={selectedCityId} onValueChange={setSelectedCityId}>
+              <Select value={selectedCityId} onValueChange={(val: any) => setSelectedCityId(val)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select from results" />
                 </SelectTrigger>

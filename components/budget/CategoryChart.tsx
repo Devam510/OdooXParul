@@ -30,7 +30,7 @@ export function CategoryChart({ data }: { data: any[] }) {
           ))}
         </Pie>
         <Tooltip 
-          formatter={(value: number) => `$${value.toFixed(2)}`}
+          formatter={(value: any) => `$${value.toFixed(2)}`}
           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
         />
         <Legend verticalAlign="bottom" height={36} iconType="circle" />

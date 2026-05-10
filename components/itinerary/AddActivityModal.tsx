@@ -103,7 +103,7 @@ export function AddActivityModal({ isOpen, onClose, tripId, stopId, cityId, onSu
               onChange={(e) => setSearch(e.target.value)}
             />
             {activities.length > 0 && (
-              <Select value={selectedActivityId} onValueChange={setSelectedActivityId}>
+              <Select value={selectedActivityId} onValueChange={(val: any) => setSelectedActivityId(val)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select from results" />
                 </SelectTrigger>

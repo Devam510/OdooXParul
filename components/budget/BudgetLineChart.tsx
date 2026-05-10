@@ -32,7 +32,7 @@ export function BudgetLineChart({ data }: { data: any[] }) {
         />
         <Tooltip 
           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-          formatter={(value: number) => [`$${value.toFixed(2)}`, 'Daily Spent']}
+          formatter={(value: any) => [`$${value.toFixed(2)}`, 'Daily Spent']}
           labelStyle={{ color: '#111827', fontWeight: 'bold', marginBottom: '4px' }}
         />
         <Line 

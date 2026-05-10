@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forgotPasswordSchema } from "@/lib/validators";
 import { AuthLayout } from "@/components/auth/AuthLayout";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -67,9 +67,9 @@ export default function ForgotPasswordPage() {
           <div className="rounded-md bg-[var(--success)]/10 p-4 text-[var(--success)]">
             <p className="text-sm font-medium">Check your email for a reset link.</p>
           </div>
-          <Button variant="outline" className="w-full" asChild>
-            <Link href="/login">Back to Login</Link>
-          </Button>
+          <Link href="/login" className={buttonVariants({ variant: "outline", className: "w-full" })}>
+            Back to Login
+          </Link>
         </div>
       ) : (
         <Form {...form}>

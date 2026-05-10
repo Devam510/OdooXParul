@@ -6,15 +6,15 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const trip = await prisma.trip.findUnique({ where: { id: params.id } });
+    const trip = await prisma.trip.findUnique({ where: { id: (await params).id } });
     if (!trip || trip.userId !== user.userId) {
       return errorResponse("FORBIDDEN", "Trip not found or access denied", 403);
     }
 
     const share = await prisma.sharedTrip.findFirst({
-      where: { tripId: params.id },
+      where: { tripId: (await params).id },
     });
 
     return successResponse(share || null);
@@ -23,21 +23,21 @@ export const GET = withAuth(async (req: NextRequest, user: JWTPayload, { params 
   }
 });
 
-export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const trip = await prisma.trip.findUnique({ where: { id: params.id } });
+    const trip = await prisma.trip.findUnique({ where: { id: (await params).id } });
     if (!trip || trip.userId !== user.userId) {
       return errorResponse("FORBIDDEN", "Trip not found or access denied", 403);
     }
 
     let share = await prisma.sharedTrip.findFirst({
-      where: { tripId: params.id },
+      where: { tripId: (await params).id },
     });
 
     if (!share) {
       share = await prisma.sharedTrip.create({
         data: {
-          tripId: params.id,
+          tripId: (await params).id,
           isActive: true,
         },
       });
@@ -54,9 +54,9 @@ export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params
   }
 });
 
-export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const trip = await prisma.trip.findUnique({ where: { id: params.id } });
+    const trip = await prisma.trip.findUnique({ where: { id: (await params).id } });
     if (!trip || trip.userId !== user.userId) {
       return errorResponse("FORBIDDEN", "Trip not found or access denied", 403);
     }
@@ -65,7 +65,7 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
     const isActive = body.isActive;
 
     const share = await prisma.sharedTrip.findFirst({
-      where: { tripId: params.id },
+      where: { tripId: (await params).id },
     });
 
     if (!share) {
@@ -83,15 +83,15 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
   }
 });
 
-export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const trip = await prisma.trip.findUnique({ where: { id: params.id } });
+    const trip = await prisma.trip.findUnique({ where: { id: (await params).id } });
     if (!trip || trip.userId !== user.userId) {
       return errorResponse("FORBIDDEN", "Trip not found or access denied", 403);
     }
 
     await prisma.sharedTrip.deleteMany({
-      where: { tripId: params.id },
+      where: { tripId: (await params).id },
     });
 
     return successResponse({ deleted: true });

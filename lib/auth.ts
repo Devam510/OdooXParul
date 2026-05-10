@@ -36,10 +36,10 @@ export function extractToken(req: NextRequest): string | null {
 }
 
 // HOF wrapper for protected API routes
-export function withAuth(
-  handler: (req: NextRequest, payload: JWTPayload) => Promise<Response>
+export function withAuth<T = any>(
+  handler: (req: NextRequest, payload: JWTPayload, context: T) => Promise<Response>
 ) {
-  return async (req: NextRequest): Promise<Response> => {
+  return async (req: NextRequest, context: T): Promise<Response> => {
     const token = extractToken(req);
     if (!token) {
       return Response.json(
@@ -49,7 +49,7 @@ export function withAuth(
     }
     try {
       const payload = verifyAccessToken(token);
-      return handler(req, payload);
+      return handler(req, payload, context);
     } catch {
       return Response.json(
         { success: false, error: { code: "TOKEN_INVALID", message: "Invalid or expired token" } },

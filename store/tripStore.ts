@@ -19,7 +19,7 @@ interface TripState {
 export const useTripStore = create<TripState>((set) => ({
   trips: [],
   currentTrip: null,
-  filters: { search: "", status: "ALL", sort: "date_desc" },
+  filters: { search: "", status: "ALL", sort: "upcoming" },
   pagination: { page: 1, total: 0, totalPages: 0 },
   setTrips: (trips, total, totalPages) =>
     set((s) => ({ trips, pagination: { ...s.pagination, total, totalPages } })),

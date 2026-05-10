@@ -5,10 +5,11 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(req: NextRequest, { params }: { params: { token: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ token: string }> }) {
   try {
+    const { token } = await params;
     const share = await prisma.sharedTrip.findUnique({
-      where: { shareToken: params.token },
+      where: { shareToken: token },
       include: {
         trip: {
           include: {
@@ -29,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: { token: strin
               select: {
                 fullName: true,
                 username: true,
-                avatarUrl: true
+                avatar: true
               }
             }
           }

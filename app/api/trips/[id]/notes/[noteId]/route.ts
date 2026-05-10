@@ -7,9 +7,9 @@ import { noteSchema } from "@/lib/validators";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; noteId: string } }) => {
+export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, noteId } = params;
+    const { id: tripId, noteId } = await params;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {
@@ -24,7 +24,7 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
     const body = await req.json();
     const result = noteSchema.partial().safeParse(body);
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const updatedNote = await prisma.note.update({
@@ -38,9 +38,9 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
   }
 });
 
-export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; noteId: string } }) => {
+export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, noteId } = params;
+    const { id: tripId, noteId } = await params;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {

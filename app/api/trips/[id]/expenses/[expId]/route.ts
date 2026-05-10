@@ -7,9 +7,9 @@ import { expenseSchema } from "@/lib/validators";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; expId: string } }) => {
+export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, expId } = params;
+    const { id: tripId, expId } = await params;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {
@@ -24,7 +24,7 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
     const body = await req.json();
     const result = expenseSchema.partial().safeParse(body);
     if (!result.success) {
-      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, result.error.errors);
+      return errorResponse("VALIDATION_ERROR", "Invalid input", 400, (result.error as any).errors);
     }
 
     const data: any = { ...result.data };
@@ -41,9 +41,9 @@ export const PATCH = withAuth(async (req: NextRequest, user: JWTPayload, { param
   }
 });
 
-export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string; expId: string } }) => {
+export const DELETE = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const { id: tripId, expId } = params;
+    const { id: tripId, expId } = await params;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {

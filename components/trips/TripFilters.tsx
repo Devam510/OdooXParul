@@ -38,7 +38,7 @@ export function TripFilters() {
       <div className="flex gap-2">
         <Select
           value={filters.status || "ALL"}
-          onValueChange={(val) => setFilters({ status: val === "ALL" ? null : val })}
+          onValueChange={(val) => setFilters({ status: (val === "ALL" ? undefined : val) as any })}
         >
           <SelectTrigger className="w-[140px] bg-white">
             <SelectValue placeholder="Status" />
@@ -54,7 +54,7 @@ export function TripFilters() {
 
         <Select
           value={filters.sort || "upcoming"}
-          onValueChange={(val) => setFilters({ sort: val as "recent" | "upcoming" })}
+          onValueChange={(val) => setFilters({ sort: val as any })}
         >
           <SelectTrigger className="w-[140px] bg-white">
             <SelectValue placeholder="Sort by" />

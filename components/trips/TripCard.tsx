@@ -47,10 +47,8 @@ export function TripCard({ trip, onDuplicate, onArchive, onDelete, onEdit }: Tri
         </div>
         <div className="absolute top-4 right-4 z-10">
           <DropdownMenu>
-            <DropdownMenuTrigger asChild onClick={(e) => e.preventDefault()}>
-              <Button variant="secondary" size="icon" className="h-8 w-8 rounded-full bg-white/80 hover:bg-white text-[var(--primary)] shadow-sm">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
+            <DropdownMenuTrigger className="h-8 w-8 rounded-full bg-white/80 hover:bg-white text-[var(--primary)] shadow-sm inline-flex items-center justify-center">
+              <MoreVertical className="h-4 w-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
               <DropdownMenuItem onClick={() => onEdit?.(trip)}>

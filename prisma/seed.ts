@@ -124,8 +124,8 @@ async function main() {
       await prisma.activity.create({
         data: {
           name: act.name,
-          category: act.category,
-          durationMinutes: act.durationMinutes,
+          category: act.category.toUpperCase() as any,
+          durationMins: act.durationMinutes,
           estimatedCost: act.estimatedCost,
           cityId: city.id,
         }

@@ -7,9 +7,9 @@ import { PACKING_TEMPLATES } from "@/lib/constants";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: { id: string } }) => {
+export const POST = withAuth(async (req: NextRequest, user: JWTPayload, { params }: { params: Promise<any> }) => {
   try {
-    const tripId = params.id;
+    const tripId = (await params).id;
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId } });
     if (!trip || trip.userId !== user.userId) {

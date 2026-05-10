@@ -9,7 +9,7 @@ export function CityFilters({ filters, setFilters }: { filters: any, setFilters:
     <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-wrap gap-6 items-end">
       <div className="space-y-2 w-[200px]">
         <Label>Country</Label>
-        <Select value={filters.country} onValueChange={(v) => setFilters({ ...filters, country: v === 'all' ? '' : v })}>
+        <Select value={filters.country} onValueChange={(v: any) => setFilters({ ...filters, country: v === 'all' ? '' : v })}>
           <SelectTrigger>
             <SelectValue placeholder="All Countries" />
           </SelectTrigger>
@@ -31,7 +31,7 @@ export function CityFilters({ filters, setFilters }: { filters: any, setFilters:
         <Label>Max Cost Index ({filters.maxCost === 4 ? '$$$$' : filters.maxCost === 3 ? '$$$' : filters.maxCost === 2 ? '$$' : '$'})</Label>
         <Slider 
           value={[filters.maxCost]} 
-          onValueChange={(v) => setFilters({ ...filters, maxCost: v[0] })} 
+          onValueChange={(v: any) => setFilters({ ...filters, maxCost: v[0] })} 
           max={4} 
           min={1} 
           step={1} 
@@ -42,7 +42,7 @@ export function CityFilters({ filters, setFilters }: { filters: any, setFilters:
         <Label>Min Popularity ({filters.minPopularity}+ ⭐)</Label>
         <Slider 
           value={[filters.minPopularity]} 
-          onValueChange={(v) => setFilters({ ...filters, minPopularity: v[0] })} 
+          onValueChange={(v: any) => setFilters({ ...filters, minPopularity: v[0] })} 
           max={5} 
           min={0} 
           step={0.5} 

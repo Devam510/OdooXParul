@@ -34,8 +34,8 @@ export function CreateTripForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<CreateTripInput>({
-    resolver: zodResolver(tripSchema),
+  const form = useForm<CreateTripInput, any, CreateTripInput>({
+    resolver: zodResolver(tripSchema) as any,
     defaultValues: {
       title: "",
       description: "",
