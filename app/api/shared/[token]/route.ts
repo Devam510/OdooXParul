@@ -64,11 +64,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ toke
         activities: s.activities.map((a: any) => a.activity)
       })),
       budgetSummary: {
-        totalSpent: share.trip.expenses.reduce((acc, exp) => acc + exp.amount, 0),
-        byCategory: share.trip.expenses.reduce((acc: any, exp) => {
-          acc[exp.category] = (acc[exp.category] || 0) + exp.amount;
-          return acc;
-        }, {})
+        totalSpent: share.trip.expenses.reduce(
+          (acc: number, exp: { amount: number }) => acc + (exp.amount ?? 0),
+          0
+        ),
+        byCategory: share.trip.expenses.reduce(
+          (acc: Record<string, number>, exp: { category: string; amount: number }) => {
+            acc[exp.category] = (acc[exp.category] ?? 0) + (exp.amount ?? 0);
+            return acc;
+          },
+          {} as Record<string, number>
+        )
       }
     };
 

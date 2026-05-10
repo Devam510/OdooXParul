@@ -39,15 +39,15 @@ export function BudgetDashboard({ tripId }: { tripId: string }) {
     fetchExpenses();
   }, [tripId]);
 
-  const totalSpent = expenses.reduce((acc, exp) => acc + exp.amount, 0);
+  const totalSpent = expenses.reduce((acc: number, exp: any) => acc + (exp.amount ?? 0), 0);
   // Dummy budget limit if not in DB. Assuming a limit for demo purposes.
   const budgetLimit = 5000; 
   
   // Calculate category breakdown
-  const categoryData = expenses.reduce((acc: any, exp) => {
-    acc[exp.category] = (acc[exp.category] || 0) + exp.amount;
+  const categoryData = expenses.reduce((acc: Record<string, number>, exp: any) => {
+    acc[exp.category] = (acc[exp.category] ?? 0) + (exp.amount ?? 0);
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
   
   const pieChartData = Object.entries(categoryData).map(([name, value]) => ({
     name,
