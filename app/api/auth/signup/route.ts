@@ -75,7 +75,8 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Signup error:", error);
-    return errorResponse("INTERNAL_SERVER_ERROR", "Something went wrong", 500);
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("Signup error:", msg);
+    return errorResponse("INTERNAL_SERVER_ERROR", msg, 500);
   }
 }
